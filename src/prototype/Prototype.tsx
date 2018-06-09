@@ -56,9 +56,7 @@ const Prototype = () => (
                 <td>{item.likes_count}</td>
                 <Query query={itemQuery} variables={{ id: item.id }}>
                   {({ loading: itemLoading, data: itemData }) => {
-                    if (!itemLoading) {
-                      console.log(itemData);
-                      if (!itemData) return null;
+                    if (!itemLoading && itemData) {
                       const pageViewsCount = itemData.item.page_views_count;
                       return (
                         <React.Fragment>
