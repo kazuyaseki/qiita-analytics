@@ -14,6 +14,9 @@ import registerServiceWorker from './registerServiceWorker';
 const cache = new InMemoryCache();
 
 const restLink = new RestLink({
+  headers: {
+    authorization: `Bearer ${process.env.REACT_APP_QIITA_TOKEN}`
+  },
   uri: 'https://qiita.com/api/v2/'
 });
 
