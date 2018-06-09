@@ -1,29 +1,32 @@
+import gql from 'graphql-tag';
 import * as React from 'react';
+import { Query } from 'react-apollo';
 import './Prototype.scss';
 
-class Prototype extends React.Component<{}, { data: Object[] }> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      data: []
-    };
+const query = gql`
+  query qiita {
+    schemaInfo @rest(type: "Person", path: "schema") {
+      required
+    }
   }
+`;
 
-  componentDidMount() {
-    fetch('https://qiita.com/api/v2/schema')
-      .then(res => res.json())
-      .then(res => this.setState({ data: res.required }));
-  }
+const Prototype = () => (
+  <Query query={query}>
+    {({ loading, data }) => {
+      if (loading) {
+        return <p>...loading</p>;
+      }
 
-  public render() {
-    return (
-      <div className="App">
-        {this.state.data.map((data, index) => (
-          <span key={index}> {data} </span>
-        ))}
-      </div>
-    );
-  }
-}
+      return (
+        <div className="App">
+          {data.schemaInfo.required.map((d: any, index: number) => (
+            <span key={index}> {d} </span>
+          ))}
+        </div>
+      );
+    }}
+  </Query>
+);
 
 export default Prototype;
