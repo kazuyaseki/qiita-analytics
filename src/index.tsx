@@ -1,4 +1,5 @@
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { persistCache } from 'apollo-cache-persist';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { RestLink } from 'apollo-link-rest';
@@ -12,6 +13,11 @@ import Prototype from './prototype/Prototype';
 import registerServiceWorker from './registerServiceWorker';
 
 const cache = new InMemoryCache();
+
+persistCache({
+  cache,
+  storage: window.localStorage
+});
 
 const restLink = new RestLink({
   headers: {
